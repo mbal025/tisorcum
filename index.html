@@ -1596,7 +1596,7 @@
         allProducts.push(p);
         
         let variantBoxes = (p.varyantlar || []).map(v => `
-          <div onclick="event.stopPropagation(); window.addToCart('${p.id}', '${v}')" class="variant-box">
+          <div role="button" onclick="event.stopPropagation(); window.addToCart('${p.id}', '${v}')" class="variant-box">
             ${v}
           </div>
         `).join('');
