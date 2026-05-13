@@ -1057,7 +1057,7 @@
         </div>
         <div class="input-group">
           <label>Telefon Numarası *</label>
-          <input class="custom-input" type="tel" id="telefon" placeholder="05XX XXX XX XX" maxlength="11" required>
+          <input class="custom-input" type="tel" id="telefon" placeholder="05XX XXX XX XX" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 0 && !this.value.startsWith('0')) this.value = '0' + this.value;" required>
         </div>
         <div class="row">
           <div class="input-group">
@@ -1842,8 +1842,15 @@
       totalDisplay.innerText = total.toFixed(2) + ' ₺';
     }
 
-    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+document.getElementById('orderForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // TELEFON NUMARASI DOĞRULAMASI
+      const telInput = document.getElementById('telefon').value;
+      if (telInput.length !== 11 || !telInput.startsWith('05')) {
+        showToast('⚠️ Lütfen 05 ile başlayan 11 haneli geçerli bir numara girin.', 'error');
+        return;
+      }
       
       const hasMissingVariants = cart.some(item => !item.secilenVaryant || item.secilenVaryant === "");
       if (hasMissingVariants) {
@@ -1894,7 +1901,7 @@
       } catch (err) {
         showToast('❌ Hata: ' + err.message, 'error');
         btn.disabled = false;
-        btn.innerText = 'SİPARİŞİ ONAYLA';
+        btn.innerText = '🔥 SİPARİŞİ ONAYLA';
       }
     });
 
