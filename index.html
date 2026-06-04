@@ -6,9 +6,8 @@
   <title id="pageTitle">🔥 FIRSAT TİŞÖRT KAMPANYASI - 2 Al 1.200 TL</title>
 <meta name="facebook-domain-verification" content="ltt9dng4fc87p9kbup0aqdu0o2khf8" />
   <script>
-   
-    let FB_PIXEL_ID = '1530551358450253'; 
-    
+    let FB_PIXEL_ID = ''; 
+    window.TT_PIXEL_ID = '';
   
     window.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -16,39 +15,35 @@
         const { getFirestore, doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js");
         
         const firebaseConfig = {
-            apiKey: "AIzaSyAdRiiDzSk-4A8zyBDWq8AOOam02dGe7ZU",
-  authDomain: "tsort-34d4e.firebaseapp.com",
-  projectId: "tsort-34d4e",
-  storageBucket: "tsort-34d4e.firebasestorage.app",
-  messagingSenderId: "328901020446",
-  appId: "1:328901020446:web:b7b4a14890ef822f30d70f"
+          apiKey: "AIzaSyASsWNQ5l2YwJiqv7mQ_t3VX3gaHRmMlEs",
+          authDomain: "tunik-b8d9c.firebaseapp.com",
+          databaseURL: "https://tunik-b8d9c-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "tunik-b8d9c",
+          storageBucket: "tunik-b8d9c.firebasestorage.app",
+          messagingSenderId: "834065495202",
+          appId: "1:834065495202:web:3c3d9ecdc49d3587bc53fb"
         };
         
         const app = initializeApp(firebaseConfig, 'pixelApp');
         const db = getFirestore(app);
         
-       
         const settingsDoc = await getDoc(doc(db, "settings", "siteConfig"));
         if (settingsDoc.exists()) {
           const settings = settingsDoc.data();
-          
-         
-          if (settings.facebookPixelId) {
-            FB_PIXEL_ID = settings.facebookPixelId;
-            
-           
-            const noscriptEl = document.getElementById('fb-noscript');
-            if (noscriptEl) {
-              const imgEl = document.createElement('img');
-              imgEl.height = '1';
-              imgEl.width = '1';
-              imgEl.style.display = 'none';
-              imgEl.src = `https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`;
-              noscriptEl.innerHTML = '';
-              noscriptEl.appendChild(imgEl);
-            }
+          const dynamicFbId = settings.facebookPixelId || settings['cfg-facebookPixelId'];
+          if (dynamicFbId) FB_PIXEL_ID = dynamicFbId;
+          const dynamicTtId = settings.tiktokPixelId || settings['cfg-tiktokPixelId'];
+          if (dynamicTtId) window.TT_PIXEL_ID = dynamicTtId;
+        }
+
+        if (FB_PIXEL_ID) {
+          const noscriptEl = document.getElementById('fb-noscript');
+          if (noscriptEl) {
+            const imgEl = document.createElement('img');
+            imgEl.height = '1'; imgEl.width = '1'; imgEl.style.display = 'none';
+            imgEl.src = `https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`;
+            noscriptEl.innerHTML = ''; noscriptEl.appendChild(imgEl);
           }
-          
           
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -59,21 +54,19 @@
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
           
-          fbq('init', FB_PIXEL_ID);
-          fbq('track', 'PageView');
-          
-          
-          window.FB_CAPI_ACCESS_TOKEN = settings.facebookCapiToken || 'BURAYA_CAPI_ACCESS_TOKEN_GELECEK';
-          window.FB_CAPI_PIXEL_ID = FB_PIXEL_ID;
+          fbq('init', FB_PIXEL_ID); fbq('track', 'PageView');
         }
-      } catch (error) {
-        console.error('Facebook Pixel yüklenirken hata:', error);
-      }
+
+        if (window.TT_PIXEL_ID) {
+          !function (w, d, t) {
+            w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=i+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+          }(window, document, 'ttq');
+          ttq.load(window.TT_PIXEL_ID); ttq.page();
+        }
+      } catch (error) { console.error('Pixel yüklenirken hata:', error); }
     });
   </script>
-  <noscript id="fb-noscript">
-    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1&ev=PageView&noscript=1"/>
-  </noscript>
+  <noscript id="fb-noscript"></noscript>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -646,6 +639,7 @@
       appearance: none;
       font-weight: 500;
     }
+    .custom-input.error { border-color: var(--danger) !important; background: rgba(239, 68, 68, 0.02) !important; }
     .custom-select { 
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%232563eb' d='M7 9L1 3h12z'/%3E%3C/svg%3E"); 
       background-repeat: no-repeat; 
@@ -658,8 +652,28 @@
       background: #fff;
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.06);
     }
+    .custom-input.error:focus { border-color: var(--danger) !important; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.06) !important; }
     textarea.custom-input { resize: vertical; min-height: 100px; }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .input-error-message {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--danger);
+      font-weight: 600;
+    }
+    .input-error-message.show { display: flex; }
+    .char-counter {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 6px;
+      font-family: var(--font-mono);
+    }
+    .char-counter.warning { color: var(--warning); }
+    .char-counter.danger { color: var(--danger); }
 
     /* CART ITEM */
     .cart-item { 
@@ -989,10 +1003,6 @@
 
   <header class="header">
     <div class="header-logo" id="headerLogo" onclick="fbq('track', 'CustomizeProduct', {content_type: 'brand_click'});"></div>
-    <!--<a href="https://wa.me/905555555555" class="btn-whatsapp" id="whatsappBtn" target="_blank" onclick="fbq('track', 'Contact', {contact_method: 'whatsapp'});">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335 .157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-      <span id="whatsappText">Destek</span>
-    </a>-->
     <div class="header-badge" id="headerBadge">✦ El Seçimi · Premium Koleksiyon ✦</div>
   </header>
 
@@ -1050,14 +1060,24 @@
 
       <div id="cart-items-summary" style="margin-bottom: 24px;"></div>
 
-      <form id="orderForm">
+      <form id="orderForm" novalidate>
         <div class="input-group">
           <label>Ad Soyad *</label>
-          <input class="custom-input" type="text" id="adSoyad" placeholder="Adınız ve soyadınız" required>
+          <input class="custom-input" type="text" id="adSoyad" placeholder="Adınız ve soyadınız" maxlength="50" required>
+          <div class="char-counter" id="adSoyad-counter">0/50</div>
+          <div class="input-error-message" id="adSoyad-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <span>Lütfen sadece harf ve boşluk kullanın</span>
+          </div>
         </div>
-<div class="input-group">
+        <div class="input-group">
           <label>Telefon Numarası *</label>
-          <input class="custom-input" type="tel" id="telefon" placeholder="05XX XXX XX XX" oninput="let v = this.value.replace(/[^0-9]/g, ''); if(v.startsWith('905')) v = '0' + v.substring(2); else if(v.startsWith('5')) v = '0' + v; else if(v.length > 0 && !v.startsWith('0')) v = '0' + v; this.value = v.substring(0, 11);" required>
+          <input class="custom-input" type="tel" id="telefon" placeholder="05XX XXX XX XX" maxlength="11" required>
+          <div class="char-counter" id="telefon-counter">0/11</div>
+          <div class="input-error-message" id="telefon-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <span>Geçerli bir telefon numarası girin (05XX XXX XX XX)</span>
+          </div>
         </div>
         <div class="row">
           <div class="input-group">
@@ -1075,11 +1095,17 @@
         </div>
         <div class="input-group">
           <label>Açık Adres *</label>
-          <textarea class="custom-input" id="adres" placeholder="Mahalle, sokak, bina no, daire no..." required rows="3"></textarea>
+          <textarea class="custom-input" id="adres" placeholder="Mahalle, sokak, bina no, daire no..." maxlength="300" required rows="3"></textarea>
+          <div class="char-counter" id="adres-counter">0/300</div>
+          <div class="input-error-message" id="adres-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <span>HTML kodları veya özel karakterler kullanmayın</span>
+          </div>
         </div>
         <div class="input-group">
           <label>Not (opsiyonel)</label>
-          <input class="custom-input" type="text" id="mesaj" placeholder="Örn: Kapı zili arızalı">
+          <input class="custom-input" type="text" id="mesaj" placeholder="Örn: Kapı zili arızalı" maxlength="100">
+          <div class="char-counter" id="mesaj-counter">0/100</div>
         </div>
         <div class="info-box">
           ⚠️ <strong class="text-primary">Sipariş Ver</strong> butonuna bastığınızda siparişiniz oluşturulur.<br>
@@ -1131,35 +1157,429 @@
     let userData = {};
     window._hasAutoScrolledToForm = false; 
 
-    const FacebookPixel = {
-      track(eventName, params = {}, eventId = null) { 
+    // ==================== INPUT VALIDATION FUNCTIONS ====================
+    
+    // HTML tag'lerini ve zararlı karakterleri temizle
+    function sanitizeInput(input) {
+      if (!input) return '';
+      // HTML etiketlerini kaldır
+      let cleaned = input.replace(/<[^>]*>/g, '');
+      // Script tag'lerini ve event handler'ları kaldır
+      cleaned = cleaned.replace(/javascript:/gi, '');
+      cleaned = cleaned.replace(/on\w+\s*=/gi, '');
+      cleaned = cleaned.replace(/&#/g, '');
+      cleaned = cleaned.replace(/&lt;/g, '<');
+      cleaned = cleaned.replace(/&gt;/g, '>');
+      cleaned = cleaned.replace(/&amp;/g, '&');
+      // SQL injection benzeri pattern'leri temizle
+      cleaned = cleaned.replace(/['";]/g, '');
+      return cleaned.trim();
+    }
+
+    // Sadece harf ve boşluk kontrolü (Türkçe karakterler dahil)
+    function isValidName(input) {
+      return /^[a-zA-ZğĞüÜşŞıİöÖçÇ\s]+$/.test(input);
+    }
+
+    // Telefon numarası validasyonu
+    function isValidPhone(input) {
+      // Sadece rakam
+      if (!/^\d+$/.test(input)) return false;
+      // 11 hane olmalı
+      if (input.length !== 11) return false;
+      // 05 ile başlamalı
+      if (!input.startsWith('05')) return false;
+      return true;
+    }
+
+    // Adres validasyonu - HTML tag içermemeli
+    function isValidAddress(input) {
+      // HTML tag kalıntısı var mı kontrol et
+      if (/<[^>]*>/g.test(input)) return false;
+      // Script veya event handler var mı
+      if (/javascript:/gi.test(input)) return false;
+      if (/on\w+\s*=/gi.test(input)) return false;
+      // Minimum 10 karakter
+      if (input.length < 10) return false;
+      return true;
+    }
+
+    // Karakter sayacı güncelleme
+    function updateCharCounter(inputId, counterId, maxLength) {
+      const input = document.getElementById(inputId);
+      const counter = document.getElementById(counterId);
+      if (input && counter) {
+        const length = input.value.length;
+        counter.textContent = `${length}/${maxLength}`;
+        counter.className = 'char-counter';
+        if (length >= maxLength * 0.9 && length < maxLength) {
+          counter.classList.add('warning');
+        } else if (length >= maxLength) {
+          counter.classList.add('danger');
+        }
+      }
+    }
+
+    // Hata mesajı göster/gizle
+    function showInputError(inputId, errorId, show) {
+      const input = document.getElementById(inputId);
+      const error = document.getElementById(errorId);
+      if (input && error) {
+        if (show) {
+          input.classList.add('error');
+          error.classList.add('show');
+        } else {
+          input.classList.remove('error');
+          error.classList.remove('show');
+        }
+      }
+    }
+
+    // Ad Soyad input event'i
+    function setupAdSoyadValidation() {
+      const input = document.getElementById('adSoyad');
+      input.addEventListener('input', function(e) {
+        // Sadece harf ve boşluklara izin ver, diğer karakterleri temizle
+        let value = this.value;
+        let cleaned = value.replace(/[^a-zA-ZğĞüÜşŞıİöÖçÇ\s]/g, '');
+        
+        // Maksimum 50 karakter
+        if (cleaned.length > 50) {
+          cleaned = cleaned.substring(0, 50);
+        }
+        
+        // Çoklu boşlukları tek boşluğa indir
+        cleaned = cleaned.replace(/\s+/g, ' ');
+        
+        if (value !== cleaned) {
+          this.value = cleaned;
+        }
+        
+        updateCharCounter('adSoyad', 'adSoyad-counter', 50);
+        
+        // Validasyon kontrolü
+        if (cleaned.length > 0 && !isValidName(cleaned)) {
+          showInputError('adSoyad', 'adSoyad-error', true);
+        } else {
+          showInputError('adSoyad', 'adSoyad-error', false);
+        }
+      });
+      
+      input.addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value.length > 0 && !isValidName(value)) {
+          showInputError('adSoyad', 'adSoyad-error', true);
+        } else {
+          showInputError('adSoyad', 'adSoyad-error', false);
+        }
+      });
+      
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        const cleaned = pastedText.replace(/[^a-zA-ZğĞüÜşŞıİöÖçÇ\s]/g, '').replace(/\s+/g, ' ').substring(0, 50);
+        this.value = cleaned;
+        updateCharCounter('adSoyad', 'adSoyad-counter', 50);
+      });
+    }
+
+    // Telefon input event'i
+    function setupTelefonValidation() {
+      const input = document.getElementById('telefon');
+      input.addEventListener('input', function(e) {
+        let value = this.value.replace(/[^0-9]/g, '');
+        
+        // Otomatik formatlama
+        if (value.startsWith('905')) {
+          value = '0' + value.substring(2);
+        } else if (value.startsWith('5') && value.length <= 10) {
+          value = '0' + value;
+        } else if (value.length > 0 && !value.startsWith('0')) {
+          value = '0' + value;
+        }
+        
+        // Maksimum 11 hane
+        if (value.length > 11) {
+          value = value.substring(0, 11);
+        }
+        
+        this.value = value;
+        updateCharCounter('telefon', 'telefon-counter', 11);
+        
+        // Validasyon kontrolü
+        if (value.length > 0 && value.length < 11) {
+          showInputError('telefon', 'telefon-error', true);
+          document.getElementById('telefon-error').querySelector('span').textContent = 
+            'Telefon numarası 11 haneli olmalıdır';
+        } else if (value.length === 11 && !value.startsWith('05')) {
+          showInputError('telefon', 'telefon-error', true);
+          document.getElementById('telefon-error').querySelector('span').textContent = 
+            'Telefon numarası 05 ile başlamalıdır';
+        } else {
+          showInputError('telefon', 'telefon-error', false);
+        }
+      });
+      
+      input.addEventListener('blur', function() {
+        const value = this.value;
+        if (value.length > 0 && !isValidPhone(value)) {
+          showInputError('telefon', 'telefon-error', true);
+          if (value.length !== 11) {
+            document.getElementById('telefon-error').querySelector('span').textContent = 
+              'Telefon numarası 11 haneli olmalıdır';
+          } else if (!value.startsWith('05')) {
+            document.getElementById('telefon-error').querySelector('span').textContent = 
+              'Telefon numarası 05 ile başlamalıdır';
+          }
+        } else {
+          showInputError('telefon', 'telefon-error', false);
+        }
+      });
+      
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        let cleaned = pastedText.replace(/[^0-9]/g, '');
+        if (cleaned.startsWith('905')) cleaned = '0' + cleaned.substring(2);
+        if (cleaned.startsWith('5') && cleaned.length <= 10) cleaned = '0' + cleaned;
+        if (cleaned.length > 0 && !cleaned.startsWith('0')) cleaned = '0' + cleaned;
+        cleaned = cleaned.substring(0, 11);
+        this.value = cleaned;
+        updateCharCounter('telefon', 'telefon-counter', 11);
+      });
+    }
+
+    // Adres input event'i
+    function setupAdresValidation() {
+      const input = document.getElementById('adres');
+      input.addEventListener('input', function(e) {
+        let value = this.value;
+        
+        // HTML tag'lerini anında temizle
+        if (/<[^>]*>/g.test(value) || /javascript:/gi.test(value) || /on\w+\s*=/gi.test(value)) {
+          value = sanitizeInput(value);
+          this.value = value;
+        }
+        
+        // Maksimum 300 karakter
+        if (value.length > 300) {
+          this.value = value.substring(0, 300);
+        }
+        
+        updateCharCounter('adres', 'adres-counter', 300);
+        
+        // HTML tag kontrolü
+        if (value.length > 0 && (/<[^>]*>/g.test(value) || /javascript:/gi.test(value) || /on\w+\s*=/gi.test(value))) {
+          showInputError('adres', 'adres-error', true);
+          document.getElementById('adres-error').querySelector('span').textContent = 
+            'HTML kodları veya zararlı içerik kullanmayın';
+        } else {
+          showInputError('adres', 'adres-error', false);
+        }
+      });
+      
+      input.addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value.length > 0 && !isValidAddress(value)) {
+          showInputError('adres', 'adres-error', true);
+          if (value.length < 10) {
+            document.getElementById('adres-error').querySelector('span').textContent = 
+              'Adres en az 10 karakter olmalıdır';
+          } else {
+            document.getElementById('adres-error').querySelector('span').textContent = 
+              'HTML kodları veya zararlı içerik kullanmayın';
+          }
+        } else {
+          showInputError('adres', 'adres-error', false);
+        }
+      });
+      
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        const cleaned = sanitizeInput(pastedText).substring(0, 300);
+        this.value = cleaned;
+        updateCharCounter('adres', 'adres-counter', 300);
+      });
+    }
+
+    // Mesaj input event'i
+    function setupMesajValidation() {
+      const input = document.getElementById('mesaj');
+      input.addEventListener('input', function(e) {
+        let value = this.value;
+        
+        // HTML tag'lerini anında temizle
+        if (/<[^>]*>/g.test(value) || /javascript:/gi.test(value) || /on\w+\s*=/gi.test(value)) {
+          value = sanitizeInput(value);
+          this.value = value;
+        }
+        
+        // Maksimum 100 karakter
+        if (value.length > 100) {
+          this.value = value.substring(0, 100);
+        }
+        
+        updateCharCounter('mesaj', 'mesaj-counter', 100);
+      });
+      
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        const cleaned = sanitizeInput(pastedText).substring(0, 100);
+        this.value = cleaned;
+        updateCharCounter('mesaj', 'mesaj-counter', 100);
+      });
+    }
+
+    // ==================== FORM VALIDATION ====================
+    
+    function validateForm() {
+      let isValid = true;
+      const errors = [];
+      
+      // Ad Soyad kontrolü
+      const adSoyadValue = document.getElementById('adSoyad').value.trim();
+      if (!adSoyadValue) {
+        showInputError('adSoyad', 'adSoyad-error', true);
+        document.getElementById('adSoyad-error').querySelector('span').textContent = 'Ad soyad zorunludur';
+        errors.push('Ad soyad gerekli');
+        isValid = false;
+      } else if (!isValidName(adSoyadValue)) {
+        showInputError('adSoyad', 'adSoyad-error', true);
+        document.getElementById('adSoyad-error').querySelector('span').textContent = 'Sadece harf ve boşluk kullanın';
+        errors.push('Ad soyad geçersiz');
+        isValid = false;
+      } else if (adSoyadValue.length < 3) {
+        showInputError('adSoyad', 'adSoyad-error', true);
+        document.getElementById('adSoyad-error').querySelector('span').textContent = 'En az 3 karakter girin';
+        errors.push('Ad soyad çok kısa');
+        isValid = false;
+      } else {
+        showInputError('adSoyad', 'adSoyad-error', false);
+      }
+      
+      // Telefon kontrolü
+      const telefonValue = document.getElementById('telefon').value;
+      if (!telefonValue) {
+        showInputError('telefon', 'telefon-error', true);
+        document.getElementById('telefon-error').querySelector('span').textContent = 'Telefon numarası zorunludur';
+        errors.push('Telefon gerekli');
+        isValid = false;
+      } else if (!isValidPhone(telefonValue)) {
+        showInputError('telefon', 'telefon-error', true);
+        if (telefonValue.length !== 11) {
+          document.getElementById('telefon-error').querySelector('span').textContent = '11 haneli olmalıdır';
+        } else if (!telefonValue.startsWith('05')) {
+          document.getElementById('telefon-error').querySelector('span').textContent = '05 ile başlamalıdır';
+        } else {
+          document.getElementById('telefon-error').querySelector('span').textContent = 'Geçersiz numara';
+        }
+        errors.push('Telefon geçersiz');
+        isValid = false;
+      } else {
+        showInputError('telefon', 'telefon-error', false);
+      }
+      
+      // İl kontrolü
+      const ilValue = document.getElementById('il').value;
+      if (!ilValue) {
+        errors.push('İl seçimi gerekli');
+        isValid = false;
+      }
+      
+      // İlçe kontrolü
+      const ilceValue = document.getElementById('ilce').value;
+      if (!ilceValue) {
+        errors.push('İlçe seçimi gerekli');
+        isValid = false;
+      }
+      
+      // Adres kontrolü
+      const adresValue = document.getElementById('adres').value.trim();
+      if (!adresValue) {
+        showInputError('adres', 'adres-error', true);
+        document.getElementById('adres-error').querySelector('span').textContent = 'Adres zorunludur';
+        errors.push('Adres gerekli');
+        isValid = false;
+      } else if (!isValidAddress(adresValue)) {
+        showInputError('adres', 'adres-error', true);
+        if (adresValue.length < 10) {
+          document.getElementById('adres-error').querySelector('span').textContent = 'Adres en az 10 karakter olmalıdır';
+        } else {
+          document.getElementById('adres-error').querySelector('span').textContent = 'Geçersiz karakterler içeriyor';
+        }
+        errors.push('Adres geçersiz');
+        isValid = false;
+      } else {
+        showInputError('adres', 'adres-error', false);
+      }
+      
+      return { isValid, errors };
+    }
+
+    // ==================== EVENT TRACKER (META & TIKTOK) ====================
+    const EventTracker = {
+      trackFB(eventName, params = {}, eventId = null) { 
         if (typeof fbq === 'function') {
           if(eventId) fbq('track', eventName, params, { eventID: eventId });
           else fbq('track', eventName, params);
         }
       },
-      trackViewContent(product) { this.track('ViewContent', { content_name: product.isim, content_ids: [product.id], content_type: 'product', value: product.fiyat, currency: 'TRY' }); },
-      trackAddToCart(product, quantity = 1) { this.track('AddToCart', { content_name: product.isim, content_ids: [product.id], content_type: 'product', value: product.fiyat, currency: 'TRY', contents: [{ id: product.id, quantity: quantity, item_price: product.fiyat }] }); },
+      trackTT(eventName, params = {}) {
+        if (typeof ttq !== 'undefined' && typeof ttq.track === 'function') {
+          ttq.track(eventName, params);
+        } else if (typeof ttq !== 'undefined') {
+          ttq.push(['track', eventName, params]);
+        }
+      },
+      trackViewContent(product) { 
+        this.trackFB('ViewContent', { content_name: product.isim, content_ids: [product.id], content_type: 'product', value: product.fiyat, currency: 'TRY' }); 
+        this.trackTT('ViewContent', { content_type: 'product', contents: [{ content_id: product.id, content_name: product.isim, quantity: 1, price: product.fiyat }], value: product.fiyat, currency: 'TRY' });
+      },
+      trackAddToCart(product, quantity = 1) { 
+        this.trackFB('AddToCart', { content_name: product.isim, content_ids: [product.id], content_type: 'product', value: product.fiyat, currency: 'TRY', contents: [{ id: product.id, quantity: quantity, item_price: product.fiyat }] }); 
+        this.trackTT('AddToCart', { content_type: 'product', contents: [{ content_id: product.id, content_name: product.isim, quantity: quantity, price: product.fiyat }], value: product.fiyat * quantity, currency: 'TRY' });
+      },
+      trackRemoveFromCart(product) {
+        this.trackFB('RemoveFromCart', { content_name: product.isim, content_ids: [product.id], content_type: 'product', value: product.fiyat, currency: 'TRY' });
+        // TikTok'un standart RemoveFromCart'ı olmasa da bu pratik tercih edilir.
+        this.trackTT('RemoveFromCart', { content_type: 'product', contents: [{ content_id: product.id, content_name: product.isim, quantity: 1, price: product.fiyat }], value: product.fiyat, currency: 'TRY' });
+      },
       trackInitiateCheckout(cartItems, totalValue) {
-        const contents = cartItems.map((item, index) => {
+        const fbContents = cartItems.map((item, index) => {
           const price = (index > 0 && campaignSettings.active) ? campaignSettings.secondProductPrice : item.fiyat;
           return { id: item.id, quantity: 1, item_price: price, name: item.isim };
         });
-        this.track('InitiateCheckout', { content_ids: cartItems.map(item => item.id), contents: contents, content_type: 'product', value: totalValue, currency: 'TRY', num_items: cartItems.length });
+        const ttContents = cartItems.map((item, index) => {
+          const price = (index > 0 && campaignSettings.active) ? campaignSettings.secondProductPrice : item.fiyat;
+          return { content_id: item.id, content_name: item.isim, quantity: 1, price: price };
+        });
+        this.trackFB('InitiateCheckout', { content_ids: cartItems.map(item => item.id), contents: fbContents, content_type: 'product', value: totalValue, currency: 'TRY', num_items: cartItems.length });
+        this.trackTT('InitiateCheckout', { contents: ttContents, value: totalValue, currency: 'TRY' });
       },
       trackPurchase(orderId, cartItems, totalValue, customerInfo = {}) {
-        const contents = cartItems.map((item, index) => {
+        const fbContents = cartItems.map((item, index) => {
           const price = (index > 0 && campaignSettings.active) ? campaignSettings.secondProductPrice : item.fiyat;
           return { id: item.id, quantity: 1, item_price: price, name: item.isim };
         });
-        const purchaseParams = { content_type: 'product', contents: contents, content_ids: cartItems.map(item => item.id), value: totalValue, currency: 'TRY', num_items: cartItems.length, order_id: orderId };
-        if (customerInfo.email) purchaseParams.em = customerInfo.email;
-        if (customerInfo.phone) purchaseParams.ph = customerInfo.phone;
-        if (customerInfo.firstName) purchaseParams.fn = customerInfo.firstName;
-        if (customerInfo.lastName) purchaseParams.ln = customerInfo.lastName;
+        const ttContents = cartItems.map((item, index) => {
+          const price = (index > 0 && campaignSettings.active) ? campaignSettings.secondProductPrice : item.fiyat;
+          return { content_id: item.id, content_name: item.isim, quantity: 1, price: price };
+        });
         
-        this.track('Purchase', purchaseParams, orderId);
-        this.sendCAPIEvent('Purchase', purchaseParams, orderId);
+        const fbParams = { content_type: 'product', contents: fbContents, content_ids: cartItems.map(item => item.id), value: totalValue, currency: 'TRY', num_items: cartItems.length, order_id: orderId };
+        
+        if (customerInfo.email) fbParams.em = customerInfo.email;
+        if (customerInfo.phone) fbParams.ph = customerInfo.phone;
+        if (customerInfo.firstName) fbParams.fn = customerInfo.firstName;
+        if (customerInfo.lastName) fbParams.ln = customerInfo.lastName;
+        
+        this.trackFB('Purchase', fbParams, orderId);
+        this.sendCAPIEvent('Purchase', fbParams, orderId);
+
+        // TikTok tarafında ödeme tamamlama
+        this.trackTT('CompletePayment', { contents: ttContents, value: totalValue, currency: 'TRY', order_id: orderId });
       },
       async sendCAPIEvent(eventName, eventData, eventId = null) {
         if (!window.FB_CAPI_ACCESS_TOKEN || window.FB_CAPI_ACCESS_TOKEN === 'BURAYA_CAPI_ACCESS_TOKEN_GELECEK') return;
@@ -1209,7 +1629,7 @@
     const reviewContainer = document.getElementById('review-container');
     const reviewDots = document.getElementById('review-dots');
 
-    const ilIlceVerileri = {
+   const ilIlceVerileri = {
   "Adana": ["Aladağ", "Ceyhan", "Çukurova", "Feke", "İmamoğlu", "Karaisalı", "Karataş", "Kozan", "Pozantı", "Saimbeyli", "Sarıçam", "Seyhan", "Tufanbeyli", "Yumurtalık", "Yüreğir"],
   "Adıyaman": ["Besni", "Çelikhan", "Gerger", "Gölbaşı", "Kahta", "Merkez", "Samsat", "Sincik", "Tut"],
   "Afyonkarahisar": ["Başmakçı", "Bayat", "Bolvadin", "Çay", "Çobanlar", "Dazkırı", "Dinar", "Emirdağ", "Evciler", "Hocalar", "İhsaniye", "İscehisar", "Kızılören", "Merkez", "Sandıklı", "Sinanpaşa", "Sultandağı", "Şuhut"],
@@ -1572,6 +1992,10 @@
         }
         
         initIlIlceSelectors();
+        setupAdSoyadValidation();
+        setupTelefonValidation();
+        setupAdresValidation();
+        setupMesajValidation();
         await loadProducts();
         initSatisfactionSlider();
       } catch (err) {
@@ -1618,7 +2042,6 @@
             </div>
             <div class="card-content">
               <h3 class="card-title">${p.isim}</h3>
-              <!--<div class="card-price">${p.fiyat} ₺</div>-->
               <hr class="card-divider">
               <div class="variant-label">${p.varyantAdi || 'NUMARA SEÇ'}</div>
               <div class="variant-grid">
@@ -1660,7 +2083,7 @@
       document.body.style.overflow = 'hidden';
 
       const product = allProducts.find(p => p.isim === productName);
-      if (product) FacebookPixel.trackViewContent(product);
+      if (product) EventTracker.trackViewContent(product);
     };
 
     window.closeLightbox = () => {
@@ -1681,7 +2104,7 @@
       
       cart.push({ ...product, cartId: Date.now(), secilenVaryant: selectedVariant });
       
-      FacebookPixel.trackAddToCart(product);
+      EventTracker.trackAddToCart(product);
       updateUI(); 
       showToast(`✓ ${product.isim} (${selectedVariant}) sepete eklendi`, 'success');
     };
@@ -1689,8 +2112,8 @@
     window.removeFromCart = (cartId) => {
       const removedItem = cart.find(item => item.cartId === cartId);
       cart = cart.filter(item => item.cartId !== cartId);
-      if (removedItem && typeof fbq === 'function') {
-        fbq('track', 'RemoveFromCart', { content_name: removedItem.isim, content_ids: [removedItem.id], content_type: 'product', value: removedItem.fiyat, currency: 'TRY' });
+      if (removedItem) {
+        EventTracker.trackRemoveFromCart(removedItem);
       }
       updateUI();
     };
@@ -1800,7 +2223,7 @@
 
         if (!window._hasAutoScrolledToForm) {
           const total = calculateTotal();
-          FacebookPixel.trackInitiateCheckout(cart, total); 
+          EventTracker.trackInitiateCheckout(cart, total); 
           setTimeout(() => {
             document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
             document.getElementById('adSoyad').focus();
@@ -1848,13 +2271,20 @@
       totalDisplay.innerText = total.toFixed(2) + ' ₺';
     }
 
-document.getElementById('orderForm').addEventListener('submit', async (e) => {
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // TELEFON NUMARASI DOĞRULAMASI
-      const telInput = document.getElementById('telefon').value;
-      if (telInput.length !== 11 || !telInput.startsWith('05')) {
-        showToast('⚠️ Lütfen 05 ile başlayan 11 haneli geçerli bir numara girin.', 'error');
+      
+      // Form validasyonu
+      const validation = validateForm();
+      if (!validation.isValid) {
+        showToast('⚠️ Lütfen formdaki hataları düzeltin', 'error');
+        if (validation.errors.length > 0) {
+          // İlk hatalı alana scroll
+          const firstErrorInput = document.querySelector('.custom-input.error, .custom-select.error');
+          if (firstErrorInput) {
+            firstErrorInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
         return;
       }
       
@@ -1873,15 +2303,23 @@ document.getElementById('orderForm').addEventListener('submit', async (e) => {
         const ip = await (await fetch('https://api.ipify.org?format=json')).json();
         userData.ip = ip.ip;
         
+        // Verileri temizle ve hazırla
+        const adSoyadTemiz = sanitizeInput(document.getElementById('adSoyad').value.trim());
+        const telefonTemiz = document.getElementById('telefon').value.trim();
+        const ilTemiz = sanitizeInput(document.getElementById('il').value);
+        const ilceTemiz = sanitizeInput(document.getElementById('ilce').value);
+        const adresTemiz = sanitizeInput(document.getElementById('adres').value.trim());
+        const mesajTemiz = sanitizeInput(document.getElementById('mesaj').value.trim());
+        
         const totalTutar = calculateTotal();
         const orderRef = await addDoc(collection(db, "orders"), {
           musteri: {
-            adSoyad: document.getElementById('adSoyad').value,
-            tel: document.getElementById('telefon').value,
-            il: document.getElementById('il').value,
-            ilce: document.getElementById('ilce').value,
-            adres: document.getElementById('adres').value,
-            mesaj: document.getElementById('mesaj').value
+            adSoyad: adSoyadTemiz,
+            tel: telefonTemiz,
+            il: ilTemiz,
+            ilce: ilceTemiz,
+            adres: adresTemiz,
+            mesaj: mesajTemiz
           },
           urunler: cart.map(i => ({ id: i.id, isim: i.isim, varyant: i.secilenVaryant })),
           toplamTutar: totalTutar.toFixed(2) + ' ₺',
@@ -1892,14 +2330,14 @@ document.getElementById('orderForm').addEventListener('submit', async (e) => {
         });
         
         const customerInfo = {
-          phone: document.getElementById('telefon').value,
-          firstName: document.getElementById('adSoyad').value.split(' ')[0],
-          lastName: document.getElementById('adSoyad').value.split(' ').slice(1).join(' '),
-          city: document.getElementById('il').value,
-          zip: document.getElementById('ilce').value
+          phone: telefonTemiz,
+          firstName: adSoyadTemiz.split(' ')[0],
+          lastName: adSoyadTemiz.split(' ').slice(1).join(' '),
+          city: ilTemiz,
+          zip: ilceTemiz
         };
         
-        FacebookPixel.trackPurchase(orderRef.id, cart, totalTutar, customerInfo);
+        EventTracker.trackPurchase(orderRef.id, cart, totalTutar, customerInfo);
         
         window.showSuccessModal();
         setTimeout(() => location.reload(), 15000);
